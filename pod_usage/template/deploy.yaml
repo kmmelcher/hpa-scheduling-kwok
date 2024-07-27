@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: hpa-demo-deployment
+spec:
+ selector:
+   matchLabels:
+     run: hpa-demo-deployment
+ replicas: 1
+ template:
+   metadata:
+     labels:
+       run: hpa-demo-deployment
+   spec:
+     containers:
+     - name: hpa-demo-deployment
+       image: caetanobca/stress-ng
+       args: 
+        - "stress-ng"
+        - "--cpu"
+        - "1"
+        - "--cpu-load"
+        - "50"
+        - "--vm"
+        - "1"
+        - "--vm-bytes"
+        - "1M"
+        - "--timeout"
+        - "15m"
+       resources:
+         requests:
+           memory: 100Mi
+           cpu: 500m
+     - name: hpa-demo-deployment-2
+       image: caetanobca/stress-ng
+       args: 
+        - "stress-ng"
+        - "--cpu"
+        - "1"
+        - "--cpu-load"
+        - "50"
+        - "--vm"
+        - "1"
+        - "--vm-bytes"
+        - "1M"
+        - "--timeout"
+        - "15m"
+       resources:
+         requests:
+           memory: 100Mi
+           cpu: 2

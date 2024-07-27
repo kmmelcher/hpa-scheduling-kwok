@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: exp4-deployment
+spec:
+ selector:
+   matchLabels:
+     run: exp4-deployment
+ replicas: 1
+ template:
+   metadata:
+     labels:
+       run: exp4-deployment
+   spec:
+     containers:
+     - name: exp4-container-a
+       image: caetanobca/stress-ng
+       args: 
+        - "stress-ng"
+        - "--vm"
+        - "1"
+        - "--vm-bytes"
+        - "70M"
+        - "--timeout"
+        - "15m"
+       resources:
+         requests:
+           memory: 100M
+           cpu: 1
+     - name: exp4-container-b
+       image: caetanobca/stress-ng
+       args: 
+        - "stress-ng"
+        - "--vm"
+        - "1"
+        - "--vm-bytes"
+        - "20M"
+        - "--timeout"
+        - "15m"
+       resources:
+         requests:
+           memory: 100M
+           cpu: 1

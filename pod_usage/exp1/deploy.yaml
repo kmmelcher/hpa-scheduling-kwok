@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: exp1-deployment
+spec:
+ selector:
+   matchLabels:
+     run: exp1-deployment
+ replicas: 1
+ template:
+   metadata:
+     labels:
+       run: exp1-deployment
+   spec:
+     containers:
+     - name: exp1-container-a
+       image: caetanobca/stress-ng
+       args: 
+        - "stress-ng"
+        - "--cpu"
+        - "1"
+        - "--cpu-load"
+        - "70"
+        - "--timeout"
+        - "15m"
+       resources:
+         requests:
+           memory: 100Mi
+           cpu: 1000m
+     - name: exp1-container-b
+       image: caetanobca/stress-ng
+       args: 
+        - "stress-ng"
+        - "--cpu"
+        - "1"
+        - "--cpu-load"
+        - "20"
+        - "--timeout"
+        - "15m"
+       resources:
+         requests:
+           memory: 100Mi
+           cpu: 1000m
