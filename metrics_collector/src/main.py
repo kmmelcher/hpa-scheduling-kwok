@@ -1,5 +1,4 @@
-import os, time, sys, time, shutil
-from datetime import datetime
+import os, sys
 from csv_writer import CsvWriter
 from metrics import Metrics
 
