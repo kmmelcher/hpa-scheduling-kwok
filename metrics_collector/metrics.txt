@@ -30,3 +30,4 @@ container_memory_usage_bytes{namespace=~"default"}
 node_memory_MemFree_bytes
 node_memory_MemAvailable_bytes
 node_memory_MemTotal_bytes
+node_cpu_seconds_total
