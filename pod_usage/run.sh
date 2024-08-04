@@ -7,9 +7,10 @@ OUTPUT_DIR=$4
 EXPERIMENT_NAME=$5
 MAX_DURATION=$6
 PLOT_DIR=$7
+EXPERIMENT_MODE=$8
 
 AGGR_TIME=0
-kubectl apply -f $EXPERIMENT_NAME
+kubectl apply -f $EXPERIMENT_NAME/hpa.yaml,$EXPERIMENT_NAME/deploy-${EXPERIMENT_MODE}.yaml
 COUNTER=`kubectl get pods | grep -v NAME | wc -l`
 
 while [ $COUNTER -eq 0 ]; do
