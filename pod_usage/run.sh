@@ -9,7 +9,9 @@ MAX_DURATION=$6
 PLOT_DIR=$7
 EXPERIMENT_MODE=$8
 
+OUTPUT_PATH="../output/$OUTPUT_DIR"
 AGGR_TIME=0
+
 kubectl apply -f $EXPERIMENT_NAME/hpa.yaml,$EXPERIMENT_NAME/deploy-${EXPERIMENT_MODE}.yaml
 COUNTER=`kubectl get pods | grep -v NAME | wc -l`
 
@@ -39,12 +41,11 @@ echo "Experiment execution is terminating."
 sleep 10
 
 echo "Collecting metrics from Prometheus"
-python3 ../metrics_collector/src/main.py $METRICS_FILEPATH $PROMETHEUS_HOST $SCRAPE_INTERVAL $OUTPUT_DIR $EXPERIMENT_NAME
+python3 ../metrics_collector/src/main.py $METRICS_FILEPATH $PROMETHEUS_HOST $SCRAPE_INTERVAL $OUTPUT_PATH $EXPERIMENT_NAME
 
-#sleep 10
-#echo "Generating tables"
+sleep 10
+echo "Generating tables"
 
-#R
+METRIC=$(grep -A 1 'resource:' $EXPERIMENT_NAME/hpa.yaml | grep 'name:' | awk '{print $2}')
 
-#$OUTPUT_DIR/$EXPERIMENT_NAME.csv
-#sleep 60
+Rscript ../plots/plot.R $METRIC $EXPERIMENT_NAME $OUTPUT_PATH/$EXPERIMENT_NAME.csv $OUTPUT_PATH
