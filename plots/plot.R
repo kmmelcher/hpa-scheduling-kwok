@@ -9,6 +9,7 @@ args <- commandArgs(trailingOnly = TRUE)
 metric <- args[1]
 experiment <- args[2]
 data <- args[3]
+output <- args[4]
 
 prometheus_rate <- function(df) {
   df <- df %>% arrange(timestamp)
@@ -91,11 +92,6 @@ if (metric == "memory") {
     mutate(timestamp = as.POSIXct(.$timestamp, origin = "1970-01-01")) %>%
     mutate(timestamp_rounded = round_date(timestamp, unit = "minute"))
   
-  print(exp_df %>%
-    filter(name == "container_cpu_usage_seconds_total") %>%
-    filter(grepl(pattern = paste0(experiment, "*"), container)) %>%
-    select(where(~ !all(. == "")))) 
-
   metric_df <- exp_df %>%
     filter(name == "container_cpu_usage_seconds_total") %>%
     filter(grepl(pattern = paste0(experiment, "*"), container)) %>%
@@ -123,5 +119,5 @@ pod_usage_df <- metric_df %>%
 
 # Converter o dataframe para Markdown e salvar
 markdown_content <- kable(pod_usage_df, format = "markdown")
-writeLines(markdown_content, paste0(experiment,".md"))
+writeLines(markdown_content, paste0(output,"/", experiment,".md"))
 
