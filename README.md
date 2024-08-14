@@ -1,13 +1,19 @@
 
 ### Run
 
-Run all experiments
+Run real experiments
 
 ```
-bash run.sh
+bash run.sh real
 ```
 
-Run a experiment, such as experiment 1:
+Run emulation experiments
+
 ```
-bash run.sh exp1
+bash run.sh emulation
+```
+
+Run just one experiment, such as experiment 2:
+```
+bash run.sh real exp2
 ```
