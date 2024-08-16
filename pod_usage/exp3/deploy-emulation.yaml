@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exp3-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exp3-deployment
+  template:
+    metadata:
+      labels:
+        app: exp3-deployment
+    spec:
+      containers:
+      - name: exp3-container-a
+        image: fake
+        resources:
+          requests:
+            cpu: 500m
+            memory: 100Mi
+      - name: exp3-container-b
+        image: fake
+        resources:
+          requests:
+            cpu: 2
+            memory: 100Mi
+---
+kind: ClusterResourceUsage
+apiVersion: kwok.x-k8s.io/v1alpha1
+metadata:
+  name: exp-usage
+spec:
+  selector:
+    matchNamespaces:
+    - default
+  usages:
+  - containers:
+    - exp3-container-a
+    usage:
+      cpu:
+        value: 100m
+      memory:
+        value: 1Mi
+  - containers:
+    - exp3-container-b
+    usage:
+      cpu:
+        value: 1300m
+      memory:
+        value: 1Mi
+  - usage:
+      cpu:
+        value: 1m
+      memory:
+        value: 1Mi

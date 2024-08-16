@@ -32,9 +32,8 @@ while [  $COUNTER -ne 0 ]; do
         if [ $AGGR_TIME -gt $MAX_DURATION ]
         then
                 echo "Deleting all deployments, services and jobs from default namespace"
-                kubectl delete -f $EXPERIMENT_NAME/hpa.yaml,$EXPERIMENT_NAME/deploy-${EXPERIMENT_MODE}.yaml
-                # kubectl delete deployment --all --namespace=default
-                # kubectl delete hpa --all --namespace=default
+                kubectl delete deployment --all --namespace=default
+                kubectl delete hpa --all --namespace=default
         fi
 done
 
