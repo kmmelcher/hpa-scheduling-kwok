@@ -17,4 +17,4 @@ fi
 
 
 cd pod_usage
-bash run_all.sh $MODE $FILTER
+bash run_all_$MODE.sh $MODE $FILTER

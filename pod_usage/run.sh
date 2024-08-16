@@ -32,8 +32,9 @@ while [  $COUNTER -ne 0 ]; do
         if [ $AGGR_TIME -gt $MAX_DURATION ]
         then
                 echo "Deleting all deployments, services and jobs from default namespace"
-                kubectl delete deployment --all --namespace=default
-                kubectl delete hpa --all --namespace=default
+                kubectl delete -f $EXPERIMENT_NAME/hpa.yaml,$EXPERIMENT_NAME/deploy-${EXPERIMENT_MODE}.yaml
+                # kubectl delete deployment --all --namespace=default
+                # kubectl delete hpa --all --namespace=default
         fi
 done
 
@@ -43,9 +44,9 @@ sleep 10
 echo "Collecting metrics from Prometheus"
 python3 ../metrics_collector/src/main.py $METRICS_FILEPATH $PROMETHEUS_HOST $SCRAPE_INTERVAL $OUTPUT_PATH $EXPERIMENT_NAME
 
-sleep 10
-echo "Generating tables"
+# sleep 10
+# echo "Generating tables"
 
-METRIC=$(grep -A 1 'resource:' $EXPERIMENT_NAME/hpa.yaml | grep 'name:' | awk '{print $2}')
+# METRIC=$(grep -A 1 'resource:' $EXPERIMENT_NAME/hpa.yaml | grep 'name:' | awk '{print $2}')
 
-Rscript ../plots/plot.R $METRIC $EXPERIMENT_NAME $OUTPUT_PATH/$EXPERIMENT_NAME.csv $OUTPUT_PATH
+# Rscript ../plots/plot.R $METRIC $EXPERIMENT_NAME $OUTPUT_PATH/$EXPERIMENT_NAME.csv $OUTPUT_PATH

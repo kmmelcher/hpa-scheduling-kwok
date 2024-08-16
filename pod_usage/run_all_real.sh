@@ -20,7 +20,6 @@ echo "⏳ Max Duration: ${MAX_DURATION}s"
 echo "📈 Plot Directory: $PLOT_DIR"
 echo ""
 
-
 for EXP_DIR in exp$DIRS ; do
     EXPERIMENT_NAME=$(basename "$EXP_DIR")
     
