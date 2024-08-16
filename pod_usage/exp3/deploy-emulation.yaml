@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: exp1-deployment
+  name: exp3-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: exp1-deployment
+      app: exp3-deployment
   template:
     metadata:
       labels:
-        app: exp1-deployment
+        app: exp3-deployment
     spec:
       containers:
-      - name: exp1-container-a
+      - name: exp3-container-a
         image: fake
         resources:
           requests:
-            cpu: 1000m
+            cpu: 500m
             memory: 100Mi
-      - name: exp1-container-b
+      - name: exp3-container-b
         image: fake
         resources:
           requests:
-            cpu: 1000m
+            cpu: 2
             memory: 100Mi
 ---
 kind: ClusterResourceUsage
@@ -36,17 +36,17 @@ spec:
     - default
   usages:
   - containers:
-    - exp1-container-a
+    - exp3-container-a
     usage:
       cpu:
-        value: 700m
+        value: 100m
       memory:
         value: 1Mi
   - containers:
-    - exp1-container-b
+    - exp3-container-b
     usage:
       cpu:
-        value: 200m
+        value: 1300m
       memory:
         value: 1Mi
   - usage:
