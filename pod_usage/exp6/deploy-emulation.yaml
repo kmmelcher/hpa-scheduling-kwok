@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exp6-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exp6-deployment
+  template:
+    metadata:
+      labels:
+        app: exp6-deployment
+    spec:
+      containers:
+      - name: exp6-container-a
+        image: fake
+        resources:
+          requests:
+            cpu: 1
+            memory: 250M
+      - name: exp6-container-b
+        image: fake
+        resources:
+          requests:
+            cpu: 1
+            memory: 1000M
+---
+kind: ClusterResourceUsage
+apiVersion: kwok.x-k8s.io/v1alpha1
+metadata:
+  name: exp-usage
+spec:
+  selector:
+    matchNamespaces:
+    - default
+  usages:
+  - containers:
+    - exp6-container-a
+    usage:
+      cpu:
+        value: 1m
+      memory:
+        value: 50M
+  - containers:
+    - exp6-container-b
+    usage:
+      cpu:
+        value: 1m
+      memory:
+        value: 650M
+  - usage:
+      cpu:
+        value: 1m
+      memory:
+        value: 1Mi
