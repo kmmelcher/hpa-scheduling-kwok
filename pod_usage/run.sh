@@ -12,16 +12,24 @@ EXPERIMENT_MODE=$8
 OUTPUT_PATH="../output/$OUTPUT_DIR"
 AGGR_TIME=0
 
-kubectl apply -f $EXPERIMENT_NAME/hpa.yaml,$EXPERIMENT_NAME/deploy-${EXPERIMENT_MODE}.yaml
+echo -e "\n\033[1;32mCreating deployment\033[0m 🔧"
+kubectl apply -f $EXPERIMENT_NAME/deploy-${EXPERIMENT_MODE}.yaml
+
+echo -e "\n\033[1;32mCreating HPA\033[0m 🔨"
+kubectl apply -f $EXPERIMENT_NAME/hpa.yaml
+
 COUNTER=`kubectl get pods | grep -v NAME | wc -l`
+
+echo -e "\n\033[1;32mWaiting for pods to be created\033[0m 🥱"
 
 while [ $COUNTER -eq 0 ]; do
         sleep 1
         COUNTER=`kubectl get pods | grep -v NAME | wc -l`
-        echo "Waiting for pods to be created"
+        echo "Waiting... 😴"
 done
 
-echo "There are pods running. Waiting for $MAX_DURATION seconds to finish the experiment."
+echo -e "\n\033[1;32mPods are running\033[0m 🏃‍♂️‍➡️"
+echo -e "Waiting for $MAX_DURATION seconds to finish the experiment."
 while [  $COUNTER -ne 0 ]; do
         sleep 1
         AGGR_TIME=$((AGGR_TIME+1))
@@ -31,16 +39,16 @@ while [  $COUNTER -ne 0 ]; do
         
         if [ $AGGR_TIME -gt $MAX_DURATION ]
         then
-                echo "Deleting all deployments, services and jobs from default namespace"
+                echo -e "\nDeleting all deployments, services and jobs from default namespace"
                 kubectl delete deployment --all --namespace=default
                 kubectl delete hpa --all --namespace=default
         fi
 done
 
-echo "Experiment execution is terminating."
+echo "Experiment execution is terminating. 💀"
 sleep 10
 
-echo "Collecting metrics from Prometheus"
+echo "Collecting metrics from Prometheus 📊"
 python3 ../metrics_collector/src/main.py $METRICS_FILEPATH $PROMETHEUS_HOST $SCRAPE_INTERVAL $OUTPUT_PATH $EXPERIMENT_NAME
 
 # sleep 10

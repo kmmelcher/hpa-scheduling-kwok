@@ -1,6 +1,8 @@
 #!/bin/bash
 
 createCluster(){
+  echo -e "\n\033[1;32mCreating cluster\033[0m 🌩️"
+
   kwokctl create cluster \
     --prometheus-port 9090 \
     --enable-metrics-server \
@@ -8,6 +10,8 @@ createCluster(){
     --name experiment
 
   kubectl apply -f ../emulation/metrics.yaml
+
+  echo -e "\n\033[1;32mCreating node\033[0m ⛏️"
 
   kwokctl scale node --replicas 1 --name experiment
 }
