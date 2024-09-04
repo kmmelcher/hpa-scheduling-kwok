@@ -9,7 +9,7 @@ createCluster(){
     --enable-crds Metric,ClusterResourceUsage,ResourceUsage \
     --name experiment
 
-  kubectl apply -f ../emulation/metrics.yaml
+  kubectl apply -f ../metrics_collector/metrics.yaml
 
   echo -e "\n\033[1;32mCreating node\033[0m ⛏️"
 
