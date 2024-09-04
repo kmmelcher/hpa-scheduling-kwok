@@ -83,19 +83,6 @@ spec:
       value: pod.metadata.name
     name: pod_memory_working_set_bytes
     value: pod.Usage("memory")
-  - dimension: pod
-    help: |
-      [ALPHA] Pod Container Resource Requests
-    kind: gauge
-    labels:
-    - name: namespace
-      value: pod.metadata.namespace
-    - name: pod
-      value: pod.metadata.name
-    - name: resource
-      value: resource.name
-    name: kube_pod_container_resource_requests
-    value: pod.ResourceRequests(resource.name)
   - dimension: node
     help: |
       [ALPHA] Cumulative cpu time consumed by the node in core-seconds
