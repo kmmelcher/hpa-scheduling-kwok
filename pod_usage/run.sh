@@ -52,7 +52,7 @@ echo "Collecting metrics from Prometheus 📊"
 python3 ../metrics_collector/src/main.py $METRICS_FILEPATH $PROMETHEUS_HOST $SCRAPE_INTERVAL $OUTPUT_PATH $EXPERIMENT_NAME
 
 # sleep 10
-# echo "Generating tables"
+# echo -e "\nGenerating plots"
 
 # METRIC=$(grep -A 1 'resource:' $EXPERIMENT_NAME/hpa.yaml | grep 'name:' | awk '{print $2}')
 

@@ -47,7 +47,7 @@ spec:
     - name: pod
       value: pod.metadata.name
     name: container_cpu_usage_seconds_total
-    value: pod.CumulativeUsage("cpu", container.name)
+    value: pod.Usage("cpu", container.name)
   - dimension: container
     help: |
       [ALPHA] Current working set of the container in bytes

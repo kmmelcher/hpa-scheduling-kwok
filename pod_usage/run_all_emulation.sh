@@ -45,6 +45,9 @@ createCluster
 
 for EXP_DIR in exp$DIRS ; do
     EXPERIMENT_NAME=$(basename "$EXP_DIR")
+
+    echo "Watching cluster cost"
+    bash cost.sh $MAX_DURATION > ../output/$OUTPUT_DIR/$EXPERIMENT_NAME-cost.csv &
     
     echo "Running experiment: $EXPERIMENT_NAME"
     bash run.sh "$METRICS_FILEPATH" "$PROMETHEUS_HOST" "$SCRAPE_INTERVAL" "$OUTPUT_DIR" "$EXPERIMENT_NAME" "$MAX_DURATION" "$PLOT_DIR" "$MODE"
