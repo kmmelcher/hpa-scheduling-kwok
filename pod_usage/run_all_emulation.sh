@@ -21,7 +21,8 @@ deleteCluster(){
 }
 
 MODE=$1
-DIRS=${2:-'*/'}
+OUTPUT_PATH=$2
+DIRS=${3:-'*/'}
 
 if [ "$DIRS" == '*/' ]; then
     EXPERIMENTS="1, 2, 3, 4, 5, 6"
@@ -40,14 +41,16 @@ echo "⏳ Max Duration: ${MAX_DURATION}s"
 echo "📈 Plot Directory: $PLOT_DIR"
 echo ""
 
-
 createCluster
 
 for EXP_DIR in exp$DIRS ; do
     EXPERIMENT_NAME=$(basename "$EXP_DIR")
+
+    echo "Watching cluster cost"
+    bash cost.sh $MAX_DURATION > $OUTPUT_PATH/$EXPERIMENT_NAME-cost.csv &
     
     echo "Running experiment: $EXPERIMENT_NAME"
-    bash run.sh "$METRICS_FILEPATH" "$PROMETHEUS_HOST" "$SCRAPE_INTERVAL" "$OUTPUT_DIR" "$EXPERIMENT_NAME" "$MAX_DURATION" "$PLOT_DIR" "$MODE"
+    bash run.sh "$METRICS_FILEPATH" "$PROMETHEUS_HOST" "$SCRAPE_INTERVAL" "$OUTPUT_PATH" "$EXPERIMENT_NAME" "$MAX_DURATION" "$PLOT_DIR" "$MODE"
     echo "Experiment $EXPERIMENT_NAME finished"
 done
 

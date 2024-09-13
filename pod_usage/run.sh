@@ -3,13 +3,12 @@
 METRICS_FILEPATH=$1
 PROMETHEUS_HOST=$2
 SCRAPE_INTERVAL=$3
-OUTPUT_DIR=$4
+OUTPUT_PATH=$4
 EXPERIMENT_NAME=$5
 MAX_DURATION=$6
 PLOT_DIR=$7
 EXPERIMENT_MODE=$8
 
-OUTPUT_PATH="../output/$OUTPUT_DIR"
 AGGR_TIME=0
 
 echo -e "\n\033[1;32mCreating deployment\033[0m 🔧"
@@ -52,7 +51,7 @@ echo "Collecting metrics from Prometheus 📊"
 python3 ../metrics_collector/src/main.py $METRICS_FILEPATH $PROMETHEUS_HOST $SCRAPE_INTERVAL $OUTPUT_PATH $EXPERIMENT_NAME
 
 # sleep 10
-# echo "Generating tables"
+# echo -e "\nGenerating plots"
 
 # METRIC=$(grep -A 1 'resource:' $EXPERIMENT_NAME/hpa.yaml | grep 'name:' | awk '{print $2}')
 
