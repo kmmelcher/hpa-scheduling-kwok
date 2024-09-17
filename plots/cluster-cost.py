@@ -5,6 +5,8 @@ import os
 # Directory containing the CSV files
 directory = "../output/emulation/"
 
+cpus = 10
+
 print ("\t\tCPU\t\t\tMEM")
 print ("Experiment\tMax\tAvg\tMedian\tMax\tAvg\tMedian")
 # Iterate over all files ending with "-cost.csv"
@@ -13,9 +15,9 @@ for file in glob.glob(f"{directory}*-cost.csv"):
     df = pd.read_csv(file)
     
     # Calculate statistics for CPU%
-    cpu_max = df['CPU%'].max() / 4
-    cpu_avg = df['CPU%'].mean() / 4
-    cpu_median = df['CPU%'].median() / 4
+    cpu_max = df['CPU%'].max() / cpus
+    cpu_avg = df['CPU%'].mean() / cpus
+    cpu_median = df['CPU%'].median() / cpus
     
     # Calculate statistics for MEM%
     mem_max = df['MEM%'].max()

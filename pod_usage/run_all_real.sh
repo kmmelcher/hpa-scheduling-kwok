@@ -2,7 +2,7 @@
 
 startCluster(){
     echo -e "\n\033[1;32mStarting cluster\033[0m 🌩️"
-    minikube start
+    minikube start --kubernetes-version=v1.23
 }
 
 stopCluster(){
