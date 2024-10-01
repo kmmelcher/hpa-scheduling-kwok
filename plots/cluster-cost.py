@@ -15,8 +15,8 @@ print ("Experiment")
 for file in glob.glob(f"{directory}/*-cost.csv"):
     data = pd.read_csv(file)
 
-    cpu_avg = data['CPU%'].mean() / cpus
-    mem_avg = data['MEM%'].mean()
+    cpu_avg = data['CPU%'].max() / cpus
+    mem_avg = data['MEM%'].max()
     
     print (os.path.basename(file) + " " + "{:.2f}\t{:.2f}".format(cpu_avg, mem_avg))
     print()
